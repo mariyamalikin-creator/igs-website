@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* ============================================================
+   IGS Brand Design Tokens
+   Colour palette: Set 3 — Velvet + Champagne + Silk + Pearl + Onyx
+   Typography: Libre Baskerville (headings) + Inter (body/UI)
+   ============================================================ */
+
+@theme inline {
+  /* --- Colours --- */
+  --color-navy:   #1A2E4A; /* Velvet — primary brand, header bg, headings */
+  --color-gold:   #C09B5E; /* Champagne — accent, CTAs, dividers          */
+  --color-silk:   #F5F0E8; /* Silk — warm section backgrounds              */
+  --color-pearl:  #FFFFFF; /* Pearl — white backgrounds                    */
+  --color-onyx:   #111111; /* Onyx — primary body text                     */
+  --color-muted:  #6B7280; /* Secondary text, captions                     */
+  --color-border: #E5E0D8; /* Subtle borders and dividers                  */
+
+  /* --- Typography --- */
+  --font-display: var(--font-baskerville);
+  --font-body:    var(--font-inter);
+
+  /* --- Type scale --- */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+  --text-6xl:  3.75rem;
+}
+
+/* ============================================================
+   Keyframe animations
+   ============================================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Custom animation utilities — @utility ensures these override base styles */
+@utility animate-fade-in-up {
+  animation: fadeInUp 0.7s ease both;
+}
+
+/* Hero variant: forwards fill-mode so elements start at natural position (no pre-animation translateY offset) */
+@utility animate-fade-in-up-hero {
+  animation: fadeInUp 0.7s ease forwards;
+}
+
+@utility animate-scale-in {
+  animation: scaleIn 1.4s ease both;
+}
+
+/* ============================================================
+   Disable all parallax motion on touch / mobile devices.
+   CSS !important overrides the inline style.transform the JS hook writes,
+   making this bulletproof regardless of JS timing or matchMedia quirks.
+   ============================================================ */
+
+@media (pointer: coarse), (max-width: 767px) {
+  /* Parallax — no movement */
+  [data-parallax] {
+    transform: none !important;
+  }
+  /* JS-driven reveals — appear instantly, no fade, no slide, no transition */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  /* CSS load animations — disable entirely, elements appear at full opacity */
+  .animate-fade-in-up,
+  .animate-scale-in {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ============================================================
+   Base styles — inside @layer base so Tailwind utilities override them
+   ============================================================ */
+
+@layer base {
+  body {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    color: var(--color-onyx);
+    background-color: var(--color-pearl);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-baskerville), Georgia, serif;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-navy);
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-weight: 600;
+    color: var(--color-navy);
+  }
+}
